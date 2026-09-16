@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<robot name="floating_sphere">
+
+	<link name="world" />
+
+	<!-- ===================== LEFT LEG ===================== -->
+
+	<link name="leg_left_dummy_x" />
+	<link name="leg_left_dummy_y" />
+
+	<link name="leg_left_target" />
+	<link name="leg_left_knee" />
+
+	<joint name="leg_left_x_slider" type="prismatic">
+		<parent link="world" />
+		<child link="leg_left_dummy_x" />
+		<axis xyz="1 0 0" />
+		<limit lower="0.1" upper="0.1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="leg_left_y_slider" type="prismatic">
+		<parent link="leg_left_dummy_x" />
+		<child link="leg_left_dummy_y" />
+		<axis xyz="0 1 0" />
+		<limit lower="0" upper="0" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="leg_left_z_slider" type="prismatic">
+		<parent link="leg_left_dummy_y" />
+		<child link="leg_left_target" />
+		<axis xyz="0 0 1" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="leg_left_knee_fixed" type="fixed">
+		<parent link="leg_left_target" />
+		<child link="leg_left_knee" />
+		<origin xyz="0 0 0" />
+	</joint>
+
+	<!-- ===================== RIGHT LEG ===================== -->
+
+	<link name="leg_right_dummy_x" />
+	<link name="leg_right_dummy_y" />
+
+	<link name="leg_right_target" />
+	<link name="leg_right_knee" />
+
+	<joint name="leg_right_x_slider" type="prismatic">
+		<parent link="world" />
+		<child link="leg_right_dummy_x" />
+		<axis xyz="1 0 0" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="leg_right_y_slider" type="prismatic">
+		<parent link="leg_right_dummy_x" />
+		<child link="leg_right_dummy_y" />
+		<axis xyz="0 1 0" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="leg_right_z_slider" type="prismatic">
+		<parent link="leg_right_dummy_y" />
+		<child link="leg_right_target" />
+		<axis xyz="0 0 1" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="leg_right_knee_fixed" type="fixed">
+		<parent link="leg_right_target" />
+		<child link="leg_right_knee" />
+		<origin xyz="0 0 0" />
+	</joint>
+
+	<!-- ===================== LEFT HAND ===================== -->
+
+	<link name="hand_left_dummy_x" />
+	<link name="hand_left_dummy_y" />
+
+	<link name="hand_left_target" />
+	<link name="hand_left_knee" />
+
+	<joint name="hand_left_x_slider" type="prismatic">
+		<parent link="world" />
+		<child link="hand_left_dummy_x" />
+		<axis xyz="1 0 0" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="hand_left_y_slider" type="prismatic">
+		<parent link="hand_left_dummy_x" />
+		<child link="hand_left_dummy_y" />
+		<axis xyz="0 1 0" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="hand_left_z_slider" type="prismatic">
+		<parent link="hand_left_dummy_y" />
+		<child link="hand_left_target" />
+		<axis xyz="0 0 1" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="hand_left_knee_fixed" type="fixed">
+		<parent link="hand_left_target" />
+		<child link="hand_left_knee" />
+		<origin xyz="0 0 0" />
+	</joint>
+
+	<!-- ===================== RIGHT HAND ===================== -->
+
+	<link name="hand_right_dummy_x" />
+	<link name="hand_right_dummy_y" />
+
+	<link name="hand_right_target" />
+	<link name="hand_right_knee" />
+
+	<joint name="hand_right_x_slider" type="prismatic">
+		<parent link="world" />
+		<child link="hand_right_dummy_x" />
+		<axis xyz="1 0 0" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="hand_right_y_slider" type="prismatic">
+		<parent link="hand_right_dummy_x" />
+		<child link="hand_right_dummy_y" />
+		<axis xyz="0 1 0" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="hand_right_z_slider" type="prismatic">
+		<parent link="hand_right_dummy_y" />
+		<child link="hand_right_target" />
+		<axis xyz="0 0 1" />
+		<limit lower="-1" upper="1" effort="10" velocity="1" />
+	</joint>
+
+	<joint name="hand_right_knee_fixed" type="fixed">
+		<parent link="hand_right_target" />
+		<child link="hand_right_knee" />
+		<origin xyz="0 0 0" />
+	</joint>
+
+</robot>
