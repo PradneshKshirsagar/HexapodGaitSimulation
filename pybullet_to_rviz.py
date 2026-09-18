@@ -193,34 +193,36 @@ class PyBulletBridgeNode(Node):
         self.robot_id = p.loadURDF(self.robot_urdf_path, [0, 0, 0.2], useFixedBase=False)
             
 
-        p.loadURDF("plane.urdf")
-        # terrain_collision_shape = p.createCollisionShape(
-        #     shapeType=p.GEOM_MESH,
-        #     fileName="terrain.stl",
-        #     flags=p.GEOM_FORCE_CONCAVE_TRIMESH,
-        #     meshScale=[1.0, 1.0, 1.0]  # Adjust scale [x, y, z] if needed
-        # )
+        surface = "flat"
+        if (surface == "flat"):
+            p.loadURDF("plane.urdf")
+        else:
+            terrain_collision_shape = p.createCollisionShape(
+                shapeType=p.GEOM_MESH,
+                fileName="terrain.stl",
+                flags=p.GEOM_FORCE_CONCAVE_TRIMESH,
+                meshScale=[1.0, 1.0, 1.0]  # Adjust scale [x, y, z] if needed
+            )
 
-        # # 2. Create visual shape (optional, but lets you see it if colors aren't loaded)
-        # terrain_visual_shape = p.createVisualShape(
-        #     shapeType=p.GEOM_MESH,
-        #     fileName="terrain.stl",
-        #     meshScale=[1.0, 1.0, 1.0]
-        # )
+            # 2. Create visual shape (optional, but lets you see it if colors aren't loaded)
+            terrain_visual_shape = p.createVisualShape(
+                shapeType=p.GEOM_MESH,
+                fileName="terrain.stl",
+                meshScale=[1.0, 1.0, 1.0]
+            )
 
-        # # 3. Create a static multi-body (mass = 0 makes it stationary/terrain)
-        # terrain_body = p.createMultiBody(
-        #     baseMass=0,
-        #     baseCollisionShapeIndex=terrain_collision_shape,
-        #     baseVisualShapeIndex=terrain_visual_shape,
-        #     basePosition=[0, 0, 0],
-        #     baseOrientation=[0, 0, 0, 1]
-        # )
+            # 3. Create a static multi-body (mass = 0 makes it stationary/terrain)
+            terrain_body = p.createMultiBody(
+                baseMass=0,
+                baseCollisionShapeIndex=terrain_collision_shape,
+                baseVisualShapeIndex=terrain_visual_shape,
+                basePosition=[0, 0, 0],
+                baseOrientation=[0, 0, 0, 1]
+            )
 
-        # p.changeDynamics(bodyUniqueId=terrain_body, 
-        #          linkIndex=-1,  # -1 refers to the base link
-        #          lateralFriction=10.0) # Increase from default 0.5 (try 1.0 to 2.0+)
-
+            p.changeDynamics(bodyUniqueId=terrain_body, 
+                    linkIndex=-1,  # -1 refers to the base link
+                    lateralFriction=10.0) # Increase from default 0.5 (try 1.0 to 2.0+)
             
         p.changeDynamics(bodyUniqueId=self.robot_id, 
                         linkIndex=-1, 
@@ -297,7 +299,7 @@ class PyBulletBridgeNode(Node):
         self.joint_pub.publish(joint_state_msg)
 
         keys = p.getKeyboardEvents()
-        stride_forward = 0
+        stride_forward = 0.0
         turn = None
         if ord('w') in keys or p.B3G_UP_ARROW in keys:
             stride_forward = 0.05
@@ -323,7 +325,7 @@ class PyBulletBridgeNode(Node):
         # self.apply_gait( # ripple (13.05, 0.074) (44.74, 0.056)
         #     base_transform_matrix,
         #     self.sim_time, 
-        #     duty_factor=2/3, stride_length=stride_forward*0, phase_offsets=[0.0, 6.0/9, 3.0/9, 1.0/9, 7.0/9, 4.0/9], center_of_curv=turn)
+        #     duty_factor=2/3, stride_length=stride_forward, phase_offsets=[0.0, 6.0/9, 3.0/9, 1.0/9, 7.0/9, 4.0/9], center_of_curv=turn)
 
         # TESTING CODE
         # linear_vel, _ = p.getBaseVelocity(self.robot_id)
@@ -353,7 +355,7 @@ class PyBulletBridgeNode(Node):
 
         p.stepSimulation()
 
-    def apply_gait(self, base_transmat, t, duty_factor, phase_offsets, stride_length=0.06, step_height=0.025, center_of_curv=None):
+    def apply_gait(self, base_transmat, t, duty_factor, phase_offsets, stride_length=0.06, step_height=0.035, center_of_curv=None):
         def get_global(point):
             return np.matmul(base_transmat, np.array([point[0], point[1], point[2], 1]))[0:3]
 
